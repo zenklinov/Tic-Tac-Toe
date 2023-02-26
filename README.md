@@ -13,7 +13,7 @@ In this implementation, we use a nested list to represent the game board, where 
 
 To run the game, simply run the code in a Python environment that has Tkinter installed, and a GUI window will appear with the game board and reset button. Clicking on a button will place the current player's mark (X or O) in the corresponding square, and the game will continue until one player wins or the game ends in a draw. Clicking the reset button will reset the game board and allow for a new game to be played.
 
-Note that this implementation uses the ```messagebox``` module from Tkinter to display the winner or draw message in a pop-up window. You can import it by adding the following line at the top of the file:
+*Note that this implementation uses the ```messagebox``` module from Tkinter to display the winner or draw message in a pop-up window. You can import it by adding the following line at the top of the file:
 
 ```from tkinter import messagebox```
 
