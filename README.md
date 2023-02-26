@@ -6,8 +6,8 @@ The objective of the game is for a player to place three of their marks in a hor
 Tic Tac Toe is often used as a teaching tool to introduce young children to the concepts of strategy, planning, and critical thinking. It is a simple and fun game that can be played virtually anywhere with nothing more than a piece of paper and a pen or pencil.
 
 Here is an example code: 
-1. 3x3 grid, copy the code from **```3x3TicTacToeInPython.py```**
-2. 5x5 grid, copy the code from **```5x5TicTacToeInPython.py```**
+1. 3x3 grid, copy the code from [3x3TicTacToeInPython.py](https://github.com/zenklinov/Tic-Tac-Toe/blob/main/3x3TicTacToeInPython.py)
+2. 5x5 grid, copy the code from [5x5TicTacToeInPython.py](https://github.com/zenklinov/Tic-Tac-Toe/blob/main/5x5TicTacToeInPython.py)
 
 In this implementation, we use a nested list to represent the game board, where each element is initially set to None. We use the ```create_board()``` method to create a 5x5 grid of buttons in the GUI, and the ```handle_click()``` method to handle clicks on the buttons. The ```check_win()``` method checks if the current player has won the game, and the ```check_draw()``` method checks if the game has ended in a draw. Finally, the ```reset()``` method resets the game board and GUI to their initial state.
 
