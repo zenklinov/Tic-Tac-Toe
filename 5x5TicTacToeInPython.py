@@ -1,82 +1,82 @@
-import tkinter as tk
+from tkinter import *
 
-class TicTacToeGUI(tk.Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.grid()
-        self.create_widgets()
-
-    def create_widgets(self):
-        self.reset_button = tk.Button(self, text="Reset", command=self.reset_game)
-        self.reset_button.grid(row=0, column=0, columnspan=5)
-        self.turn_label = tk.Label(self, text="Player X's turn")
-        self.turn_label.grid(row=1, column=0, columnspan=5)
-        self.buttons = []
+class TicTacToe:
+    def __init__(self, master):
+        self.master = master
+        master.title("Tic Tac Toe")
+        
+        self.current_player = "X"
+        self.game_over = False
+        
+        self.create_board()
+        self.create_reset_button()
+        
+    def create_board(self):
+        self.board = [[None for j in range(5)] for i in range(5)]
+        self.buttons = [[None for j in range(5)] for i in range(5)]
+        
+        for i in range(5):
+            for j in range(5):
+                button = Button(self.master, text="", width=4, height=2,
+                                command=lambda row=i, col=j: self.handle_click(row, col))
+                button.grid(row=i, column=j)
+                self.buttons[i][j] = button
+                
+    def create_reset_button(self):
+        reset_button = Button(self.master, text="Reset", command=self.reset)
+        reset_button.grid(row=5, column=2)
+                
+    def handle_click(self, row, col):
+        if self.board[row][col] is None and not self.game_over:
+            self.board[row][col] = self.current_player
+            self.buttons[row][col].config(text=self.current_player)
+            
+            if self.check_win(row, col):
+                self.game_over = True
+                messagebox.showinfo("Game Over", f"{self.current_player} wins!")
+            elif self.check_draw():
+                self.game_over = True
+                messagebox.showinfo("Game Over", "Draw!")
+            else:
+                self.switch_players()
+                
+    def switch_players(self):
+        self.current_player = "O" if self.current_player == "X" else "X"
+        
+    def check_win(self, row, col):
+        # Check row
+        if all(cell == self.current_player for cell in self.board[row]):
+            return True
+        
+        # Check column
+        if all(self.board[i][col] == self.current_player for i in range(5)):
+            return True
+        
+        # Check diagonal
+        if row == col and all(self.board[i][i] == self.current_player for i in range(5)):
+            return True
+        
+        # Check anti-diagonal
+        if row + col == 4 and all(self.board[i][4-i] == self.current_player for i in range(5)):
+            return True
+        
+        return False
+    
+    def check_draw(self):
         for row in range(5):
             for col in range(5):
-                button = tk.Button(self, text="", width=3, height=1, command=lambda row=row, col=col: self.button_click(row, col))
-                button.grid(row=row+2, column=col)
-                self.buttons.append(button)
-        self.game_over = False
-        self.current_player = "X"
-
-    def button_click(self, row, col):
-        if not self.game_over:
-            button = self.buttons[row*5+col]
-            if button["text"] == "":
-                button["text"] = self.current_player
-                if self.check_win(row, col):
-                    self.turn_label["text"] = f"Player {self.current_player} wins!"
-                    self.game_over = True
-                elif self.check_draw():
-                    self.turn_label["text"] = "Draw!"
-                    self.game_over = True
-                else:
-                    self.switch_turn()
-
-    def check_win(self, row, col):
-        for i in range(5):
-            if self.buttons[row*5+i]["text"] != self.current_player:
-                break
-        else:
-            return True
-        for i in range(5):
-            if self.buttons[i*5+col]["text"] != self.current_player:
-                break
-        else:
-            return True
-        if row == col:
-            for i in range(5):
-                if self.buttons[i*5+i]["text"] != self.current_player:
-                    break
-            else:
-                return True
-        if row == 4 - col:
-            for i in range(5):
-                if self.buttons[i*5+4-i]["text"] != self.current_player:
-                    break
-            else:
-                return True
-        return False
-
-    def check_draw(self):
-        for button in self.buttons:
-            if button["text"] == "":
-                return False
+                if self.board[row][col] is None:
+                    return False
         return True
-
-    def switch_turn(self):
-        self.current_player = "O" if self.current_player == "X" else "X"
-        self.turn_label["text"] = f"Player {self.current_player}'s turn"
-
-    def reset_game(self):
-        for button in self.buttons:
-            button["text"] = ""
-        self.game_over = False
+    
+    def reset(self):
         self.current_player = "X"
-        self.turn_label["text"] = "Player X's turn"
-
-root = tk.Tk()
-root.title("Tic Tac Toe")
-app = TicTacToeGUI(master=root)
-app.mainloop()
+        self.game_over = False
+        for i in range(5):
+            for j in range(5):
+                self.board[i][j] = None
+                self.buttons[i][j].config(text="")
+        
+root = Tk()
+game = TicTacToe(root)
+root.mainloop()
